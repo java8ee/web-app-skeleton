@@ -1,0 +1,22 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>WebApp</artifactId>
+        <groupId>ss</groupId>
+        <version>0.1</version>
+    </parent>
+
+    <artifactId>domain</artifactId>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <!-- JSR 317 Java Persistence --> <!-- JSR-338 (JPA 2.1) have no STD impl -->
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+    </dependencies>
+</project>
