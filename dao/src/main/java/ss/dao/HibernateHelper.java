@@ -17,6 +17,9 @@ public abstract class HibernateHelper<T> {
             session.getTransaction().commit();
 
             return result;
+        } catch (RuntimeException cause) {
+            session.getTransaction().rollback();
+            throw cause;
         } finally {
             if (session != null && session.isOpen()) {
                 session.close();
