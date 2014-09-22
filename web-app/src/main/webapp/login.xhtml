@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
 
 <h:head>
-    <title>Login Page</title>
+    <f:view locale="#{userSettings.locale}" />
+    <title>#{msg['title.login']}</title>
 </h:head>
 
 <h:body>
     <h:form>
         <h:panelGrid columns="2">
-            <h:outputText value="Username:" />
+            #{msg.lang} :
+            <h:selectOneMenu value="#{userSettings.locale}" onchange="submit()" valueChangeListener="#{userSettings.changeLocale}">
+                <f:selectItems value="#{userSettings.locales}" />
+            </h:selectOneMenu>
+        </h:panelGrid>
+    </h:form>
+
+    <h:form>
+        <h:panelGrid columns="2">
+            <h:outputText value="#{msg['label.username']}:" />
             <h:inputText value="#{loginBean.username}" size="20" />
-            <h:outputText value="Password:" />
+            <h:outputText value="#{msg['label.password']}:" />
             <h:inputSecret value="#{loginBean.password}" size="20" />
         </h:panelGrid>
-        <h:commandLink value="Login" action="#{loginBean.login}" />
+        <h:commandLink value="#{msg['button.login']}" action="#{loginBean.login}" />
     </h:form>
 </h:body>
 
