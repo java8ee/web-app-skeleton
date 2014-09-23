@@ -1,76 +1,68 @@
 package ss.bean;
 
-import javax.annotation.PostConstruct;
+import ss.util.LocaleHelper;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-import java.util.TreeMap;
+import java.util.*;
 
 @ManagedBean(name = "userSettings")
 @SessionScoped
 public class UserSettingsBean implements Serializable {
-    private static final String LOCALES_PATH = "ss/locales.properties";
-    private static Map<String, Locale> locales = new TreeMap<String, Locale>();
+    public static final String RESOURCE_BUNDLE_VAR = "msg";
+    private Map<String, String> locales = new LinkedHashMap<String, String>();
 
-    private String locale = "en";
+    private String locale;
 
-    static {
-        loadLocales();
-    }
-
-    private static void loadLocales() {
-        InputStream stream = UserSettingsBean.class.getClassLoader().getResourceAsStream(LOCALES_PATH);
-        if (stream == null) {
-            throw new RuntimeException("Can't find locales resource: " + LOCALES_PATH);
+    public Map<String, String> getLocales() {
+        if (locales.isEmpty()) {
+            loadLocales();
         }
-
-        try {
-            Properties properties = new Properties();
-            properties.load(stream);
-            for (String key : properties.stringPropertyNames()) {
-                String lang = properties.getProperty(key);
-                locales.put(lang, new Locale(key));
-            }
-        } catch (IOException cause) {
-            throw new RuntimeException("Can't read locales list from file", cause);
-        }
-    }
-
-    public Map<String, Locale> getLocales() {
         return locales;
     }
 
     public String getLocale() {
+        if (locale == null) {
+            locale = FacesContext.getCurrentInstance().getApplication().getDefaultLocale().getLanguage();
+        }
         return locale;
     }
 
     public void setLocale(String locale) {
-        this.locale = locale;
+        if (this.locale != locale) {
+            this.locale = locale;
+            loadLocales();
+        }
     }
 
     public void changeLocale(ValueChangeEvent event) {
-        String newLocaleName = event.getNewValue().toString();
-        Locale newLocale = findLocale(newLocaleName);
-        if (newLocale != null) {
-            FacesContext.getCurrentInstance().getViewRoot().setLocale(newLocale);
+        String newLocale = event.getNewValue().toString();
+        FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale(newLocale));
+    }
+
+    private void loadLocales() {
+        ResourceBundle bundle = getBundle();
+
+        locales.clear();
+        for (Locale loc : LocaleHelper.getLocales()) {
+            String lang = loc.getLanguage();
+            locales.put(getMessage(bundle, "locale." + lang), lang);
         }
     }
-    
-    private Locale findLocale(String name) {
-        for (Map.Entry<String, Locale> entry : locales.entrySet()) {
-            if (entry.getValue().toString().equals(name)) {
-                return entry.getValue();
-            }
-        }
 
-        return null;
+    private String getMessage(ResourceBundle bundle, String key) {
+        try {
+            return bundle.getString(key);
+        } catch (MissingResourceException cause) {
+            return "???" + key + "???";
+        }
+    }
+
+    private ResourceBundle getBundle() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        return context.getApplication().getResourceBundle(context, RESOURCE_BUNDLE_VAR);
     }
 }

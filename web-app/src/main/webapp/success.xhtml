@@ -7,10 +7,10 @@
 </h:head>
 
 <h:body>
-    You authorized successful!
-    Hello, #{loginBean.person}!
+    #{msg['success']}<br />
+    #{msg['hello']}, #{loginBean.person}!
     <h:form>
-        <h:commandLink action="#{loginBean.logout}" value="Logout" />
+        <h:commandLink action="#{loginBean.logout}" value="#{msg['button.logout']}" />
     </h:form>
 </h:body>
 

@@ -50,7 +50,7 @@ public class LoginBean implements Serializable {
 
     public String logout() {
         reset();
-        return "/";
+        return "login";
     }
 
     private void reset() {
