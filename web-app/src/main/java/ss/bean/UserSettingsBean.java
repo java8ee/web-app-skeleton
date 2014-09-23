@@ -5,24 +5,43 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
-import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
+import java.util.TreeMap;
 
 @ManagedBean(name = "userSettings")
 @SessionScoped
 public class UserSettingsBean implements Serializable {
+    private static final String LOCALES_PATH = "ss/locales.properties";
+    private static Map<String, Locale> locales = new TreeMap<String, Locale>();
+
     private String locale = "en";
 
-    private static Map<String, Locale> locales;
-
     static {
-        locales = new LinkedHashMap<String, Locale>();
-        locales.put("English", Locale.ENGLISH);
-        locales.put("Russian", new Locale("ru"));
-        locales.put("German", Locale.GERMAN);
-        locales.put("French", Locale.FRENCH);
+        loadLocales();
+    }
+
+    private static void loadLocales() {
+        InputStream stream = UserSettingsBean.class.getClassLoader().getResourceAsStream(LOCALES_PATH);
+        if (stream == null) {
+            throw new RuntimeException("Can't find locales resource: " + LOCALES_PATH);
+        }
+
+        try {
+            Properties properties = new Properties();
+            properties.load(stream);
+            for (String key : properties.stringPropertyNames()) {
+                String lang = properties.getProperty(key);
+                locales.put(lang, new Locale(key));
+            }
+        } catch (IOException cause) {
+            throw new RuntimeException("Can't read locales list from file", cause);
+        }
     }
 
     public Map<String, Locale> getLocales() {
