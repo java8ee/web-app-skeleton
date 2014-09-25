@@ -2,6 +2,7 @@ package ss.bean;
 
 import ss.service.AuthService;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -46,7 +47,15 @@ public class LoginBean implements Serializable {
 
     /* ACTIONS */
     public String login() {
-        return authService.hasPermission(username, password) ? "success?faces-redirect=true" : null;
+        boolean hasPermission = authService.hasPermission(username, password);
+        if (hasPermission) {
+            return "success?faces-redirect=true";
+        } else {
+            FacesMessage message = new FacesMessage("Incorrect login / password");
+            message.setSeverity(FacesMessage.SEVERITY_ERROR);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            return null;
+        }
     }
 
     public String logout() {
