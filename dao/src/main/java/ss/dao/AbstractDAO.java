@@ -36,7 +36,7 @@ public abstract class AbstractDAO<T> implements CRUD<T> {
         return new HibernateHelper<T>() {
             @Override
             T operation() {
-                return (T) getSession().load(type, id);
+                return (T) getSession().get(type, id);
             }
         }.execute();
     }
@@ -46,7 +46,7 @@ public abstract class AbstractDAO<T> implements CRUD<T> {
         return new HibernateHelper<List<T>>() {
             @Override
             List<T> operation() {
-                return getSession().createCriteria(type.getClass()).list();
+                return getSession().createCriteria(type).list();
             }
         }.execute();
     }
