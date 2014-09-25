@@ -18,7 +18,7 @@ public class LoginBean implements Serializable {
     private String person;
 
     @ManagedProperty("#{authService}")
-    private transient AuthService authService;
+    private AuthService authService;
 
     public String getUsername() {
         return username;

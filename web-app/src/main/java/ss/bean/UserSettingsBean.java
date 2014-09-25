@@ -32,7 +32,7 @@ public class UserSettingsBean implements Serializable {
     }
 
     public void setLocale(String locale) {
-        if (this.locale != locale) {
+        if (!locale.equals(this.locale)) {
             this.locale = locale;
             loadLocales();
         }
