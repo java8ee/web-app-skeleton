@@ -5,6 +5,7 @@ import ss.service.AuthService;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import java.io.Serializable;
 
 @ManagedBean
@@ -45,17 +46,11 @@ public class LoginBean implements Serializable {
 
     /* ACTIONS */
     public String login() {
-        return authService.hasPermission(username, password) ? "success" : null;
+        return authService.hasPermission(username, password) ? "success?faces-redirect=true" : null;
     }
 
     public String logout() {
-        reset();
-        return "login";
-    }
-
-    private void reset() {
-        username = null;
-        password = null;
-        person = null;
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "login?faces-redirect=true";
     }
 }
