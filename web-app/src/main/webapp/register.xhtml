@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>Registration</title>
+</h:head>
+
+<h:body>
+    <h1>Register form</h1>
+    <h:form id="register">
+        <h:panelGrid columns="3">
+            <h:outputText value="Username:" />
+            <h:inputText id="username" value="#{register.username}" label="Username" size="20" required="true" />
+            <h:message for="username" />
+
+            <h:outputText value="Password:" />
+            <h:inputSecret id="password" value="#{register.password}" label="Password" size="20" required="true" />
+            <h:message for="password" />
+
+            <h:outputText value="Confirm:" />
+            <h:inputSecret id="confirm" value="#{register.confirm}" label="Confirm" size="20" required="true" />
+            <h:message for="confirm" />
+
+            <h:outputText value="User:" />
+            <h:selectOneMenu value="#{register.personId}">
+                <f:selectItems value="#{register.persons}" />
+            </h:selectOneMenu>
+        </h:panelGrid>
+
+        <h:commandButton value="Register" action="#{register.register}" />
+    </h:form>
+</h:body>
+</html>
