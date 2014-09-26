@@ -55,7 +55,7 @@ public class LoginBean implements Serializable {
         boolean hasPermission = authService.hasPermission(username, password);
         if (hasPermission) {
             loggedIn = true;
-            return "/secured/success?faces-redirect=true";
+            return "/secure/success?faces-redirect=true";
         } else {
             FacesMessage message = new FacesMessage("Incorrect login / password");
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
