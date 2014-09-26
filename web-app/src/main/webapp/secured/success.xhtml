@@ -9,9 +9,9 @@
 
 <h:body>
     #{msg['success']}<br />
-    #{msg['hello']}, #{loginBean.person}!
+    #{msg['hello']}, #{login.person}!
     <h:form>
-        <h:commandLink action="#{loginBean.logout}" value="#{msg['button.logout']}" />
+        <h:commandLink action="#{login.logout}" value="#{msg['button.logout']}" />
     </h:form>
 </h:body>
 

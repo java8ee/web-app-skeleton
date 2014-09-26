@@ -20,11 +20,11 @@
     <h:form>
         <h:panelGrid columns="2">
             <h:outputText value="#{msg['label.username']}:" />
-            <h:inputText value="#{loginBean.username}" size="20" />
+            <h:inputText value="#{login.username}" size="20" />
             <h:outputText value="#{msg['label.password']}:" />
-            <h:inputSecret value="#{loginBean.password}" size="20" />
+            <h:inputSecret value="#{login.password}" size="20" />
         </h:panelGrid>
-        <h:commandLink value="#{msg['button.login']}" action="#{loginBean.login}" />
+        <h:commandLink value="#{msg['button.login']}" action="#{login.login}" />
     </h:form>
 </h:body>
 

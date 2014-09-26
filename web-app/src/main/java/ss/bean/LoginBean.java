@@ -9,13 +9,14 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
 
-@ManagedBean
+@ManagedBean(name = "login")
 @SessionScoped
 public class LoginBean implements Serializable {
     private static final long serialVersionUID = 548560872660875433L;
 
     private String username;
     private String password;
+    private boolean loggedIn;
 
     private String person;
 
@@ -36,6 +37,10 @@ public class LoginBean implements Serializable {
         this.password = password;
     }
 
+    public boolean isLoggedIn() {
+        return loggedIn;
+    }
+
     public String getPerson() {
         return authService.getPerson(username);
     }
@@ -49,7 +54,8 @@ public class LoginBean implements Serializable {
     public String login() {
         boolean hasPermission = authService.hasPermission(username, password);
         if (hasPermission) {
-            return "success?faces-redirect=true";
+            loggedIn = true;
+            return "/secured/success?faces-redirect=true";
         } else {
             FacesMessage message = new FacesMessage("Incorrect login / password");
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
@@ -59,7 +65,8 @@ public class LoginBean implements Serializable {
     }
 
     public String logout() {
+        loggedIn = false;
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return "login?faces-redirect=true";
+        return "/login?faces-redirect=true";
     }
 }
