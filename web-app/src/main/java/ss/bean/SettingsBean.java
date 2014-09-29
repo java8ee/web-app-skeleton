@@ -9,9 +9,9 @@ import javax.faces.event.ValueChangeEvent;
 import java.io.Serializable;
 import java.util.*;
 
-@ManagedBean(name = "userSettings")
+@ManagedBean(name = "settings")
 @SessionScoped
-public class UserSettingsBean implements Serializable {
+public class SettingsBean implements Serializable {
     public static final String RESOURCE_BUNDLE_VAR = "msg";
     private Map<String, String> locales = new LinkedHashMap<String, String>();
 

@@ -2,19 +2,27 @@ package ss.service;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import ss.dao.UserDataSource;
-import ss.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 @Service
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class AuthService {
+public class AuthService implements UserDetailsService {
     @Autowired
     private UserDataSource dao;
 
     public boolean hasPermission(String username, String password) {
-        User user = dao.getByUsername(username);
+        ss.domain.User user = dao.getByUsername(username);
         return user != null && equals(user.getPassword(), password);
     }
 
@@ -27,7 +35,20 @@ public class AuthService {
     }
 
     public String getPerson(String username) {
-        User user = dao.getByUsername(username);
+        ss.domain.User user = dao.getByUsername(username);
         return user == null ? null : user.getPerson().toString();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        ss.domain.User entity = dao.getByUsername(username);
+        if (entity == null) {
+            throw new UsernameNotFoundException("Unnoun user : [" + username + "]");
+        }
+
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("ADMIN"));
+
+        return new User(entity.getUsername(), entity.getPassword(), authorities);
     }
 }

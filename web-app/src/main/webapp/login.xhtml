@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
 
 <h:head>
-    <f:view locale="#{userSettings.locale}" />
+    <f:view locale="#{settings.locale}" />
     <title>#{msg['title.login']}</title>
 </h:head>
 
@@ -11,18 +11,18 @@
     <h:form>
         <h:panelGrid columns="2">
             #{msg.lang} :
-            <h:selectOneMenu value="#{userSettings.locale}" onchange="submit()" valueChangeListener="#{userSettings.changeLocale}">
-                <f:selectItems value="#{userSettings.locales}" />
+            <h:selectOneMenu value="#{settings.locale}" onchange="submit()" valueChangeListener="#{settings.changeLocale}">
+                <f:selectItems value="#{settings.locales}" />
             </h:selectOneMenu>
         </h:panelGrid>
     </h:form>
 
-    <h:form>
+    <h:form prependId="false">
         <h:panelGrid columns="2">
             <h:outputText value="#{msg['label.username']}:" />
-            <h:inputText value="#{login.username}" size="20" />
+            <h:inputText id="j_username" value="#{login.username}" size="20" />
             <h:outputText value="#{msg['label.password']}:" />
-            <h:inputSecret value="#{login.password}" size="20" />
+            <h:inputSecret id="j_password" value="#{login.password}" size="20" />
         </h:panelGrid>
         <h:commandLink value="#{msg['button.login']}" action="#{login.login}" />
     </h:form>
