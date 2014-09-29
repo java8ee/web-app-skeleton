@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import ss.dao.UserDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ss.domain.Role;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,10 +45,14 @@ public class AuthService implements UserDetailsService {
         ss.domain.User entity = dao.getByUsername(username);
         if (entity == null) {
             throw new UsernameNotFoundException("Unnoun user : [" + username + "]");
+        } else if (entity.getRoles().isEmpty()) {
+            throw new UsernameNotFoundException("User without any roles : [" + username + "]");
         }
 
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ADMIN"));
+        for (Role role : entity.getRoles()) {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
 
         return new User(entity.getUsername(), entity.getPassword(), authorities);
     }

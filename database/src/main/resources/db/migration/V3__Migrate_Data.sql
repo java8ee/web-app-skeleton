@@ -12,3 +12,15 @@ SELECT 'username', 'password', (SELECT id FROM Person WHERE surname ='Usersurnam
 
 INSERT INTO User (username, password, person_id)
 SELECT 'root', 'root', (SELECT id FROM Person WHERE surname ='Ivanov') FROM dual;
+
+INSERT INTO User (username, password, person_id)
+SELECT 'user', 'pass', (SELECT id FROM Person WHERE surname ='Surname') FROM dual;
+
+INSERT INTO User_Role (user_id, roles_id)
+SELECT (SELECT id FROM User WHERE username = 'root'), (SELECT id FROM Role WHERE name = 'ADMIN');
+
+INSERT INTO User_Role (user_id, roles_id)
+SELECT (SELECT id FROM User WHERE username = 'username'), (SELECT id FROM Role WHERE name = 'MANAGER');
+
+INSERT INTO User_Role (user_id, roles_id)
+SELECT (SELECT id FROM User WHERE username = 'user'), (SELECT id FROM Role WHERE name = 'USER');

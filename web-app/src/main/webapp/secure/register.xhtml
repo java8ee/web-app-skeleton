@@ -22,6 +22,12 @@
             <h:inputSecret id="confirm" value="#{register.confirm}" label="Confirm" size="20" required="true" />
             <h:message for="confirm" />
 
+            <h:outputText value="Roles:" />
+            <h:selectManyListbox id="roles" value="#{register.rolesId}">
+                <f:selectItems value="#{register.roles}" />
+            </h:selectManyListbox>
+            <h:message for="roles" />
+
             <h:outputText value="User:" />
             <h:selectOneMenu value="#{register.personId}">
                 <f:selectItems value="#{register.persons}" />

@@ -17,3 +17,19 @@ CREATE TABLE User (
   INDEX user_person_idx (person_id),
   FOREIGN KEY (person_id) REFERENCES Person(id) ON DELETE CASCADE
 ) ENGINE=INNODB;
+
+CREATE TABLE Role (
+  id int not null AUTO_INCREMENT,
+  name varchar(100) not null,
+
+  CONSTRAINT role_pk PRIMARY KEY (id)
+) ENGINE=INNODB;
+
+CREATE TABLE User_Role (
+  user_id int not null,
+  roles_id int not null,
+
+  INDEX user_role_idx (user_id),
+  FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE,
+  FOREIGN KEY (roles_id) REFERENCES Role(id) ON DELETE CASCADE
+) ENGINE=INNODB;

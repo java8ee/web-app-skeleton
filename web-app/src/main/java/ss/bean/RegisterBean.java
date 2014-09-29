@@ -1,9 +1,11 @@
 package ss.bean;
 
 import ss.domain.Person;
+import ss.domain.Role;
 import ss.domain.User;
 import ss.service.PersonService;
 import ss.service.RegisterService;
+import ss.service.RoleService;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -11,8 +13,10 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 @ManagedBean(name = "register")
 @RequestScoped
@@ -21,12 +25,16 @@ public class RegisterBean implements Serializable {
     private String password;
     private String confirm;
     private int personId;
+    private Set<String> rolesId;
 
     @ManagedProperty("#{registerService}")
     private RegisterService registerService;
 
     @ManagedProperty("#{personService}")
     private PersonService personService;
+
+    @ManagedProperty("#{roleService}")
+    private RoleService roleService;
 
     public String getUsername() {
         return username;
@@ -56,6 +64,13 @@ public class RegisterBean implements Serializable {
         return personId;
     }
 
+    public Set<String> getRolesId() {
+        return rolesId;
+    }
+    public void setRolesId(Set<String> rolesId) {
+        this.rolesId = rolesId;
+    }
+
     public Map<String, Integer> getPersons() {
         Map<String, Integer> persons = new LinkedHashMap<>();
         persons.put("UNNOUN", 0);
@@ -67,12 +82,24 @@ public class RegisterBean implements Serializable {
         return persons;
     }
 
+    public Map<String, String> getRoles() {
+        Map<String, String> roles = new LinkedHashMap<>();
+        for (Role role : roleService.list()) {
+            roles.put(role.getName(), Integer.toString(role.getId()));
+        }
+
+        return roles;
+    }
+
     /* SERVICES */
     public void setRegisterService(RegisterService registerService) {
         this.registerService = registerService;
     }
     public void setPersonService(PersonService personService) {
         this.personService = personService;
+    }
+    public void setRoleService(RoleService roleService) {
+        this.roleService = roleService;
     }
 
     /* ACTIONS */
@@ -82,6 +109,7 @@ public class RegisterBean implements Serializable {
             user.setUsername(username);
             user.setPassword(password);
             user.setPerson(personService.get(personId));
+            user.setRoles(getRoleSet());
             registerService.register(user);
 
             FacesMessage message = new FacesMessage("User " + username + " was successfully created!");
@@ -114,5 +142,13 @@ public class RegisterBean implements Serializable {
 
             return false;
         }
+    }
+
+    private Set<Role> getRoleSet() {
+        Set<Role> roles = new HashSet<>();
+        for (String roleId : rolesId) {
+            roles.add(roleService.get(Integer.valueOf(roleId)));
+        }
+        return roles;
     }
 }

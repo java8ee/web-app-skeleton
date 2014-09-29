@@ -1,11 +1,14 @@
 package ss.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table
@@ -17,6 +20,8 @@ public class User implements Serializable {
     private String password;
     @ManyToOne
     private Person person;
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
 
     public int getId() {
         return id;
@@ -44,6 +49,13 @@ public class User implements Serializable {
     }
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     @Override
