@@ -30,6 +30,11 @@
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
 
+    <error-page>
+        <exception-type>org.springframework.security.access.AccessDeniedException</exception-type>
+        <location>/403.xhtml</location>
+    </error-page>
+
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>

@@ -1,5 +1,7 @@
 package ss.dao;
 
+import org.hibernate.Criteria;
+
 import java.util.List;
 
 public abstract class AbstractDAO<T> implements CRUD<T> {
@@ -43,10 +45,10 @@ public abstract class AbstractDAO<T> implements CRUD<T> {
 
     @Override
     public List<T> getAll() {
-        return new HibernateHelper<List<T>>() {
+        return new HibernateHelper<List>() {
             @Override
-            List<T> operation() {
-                return getSession().createCriteria(type).list();
+            List operation() {
+                return getSession().createCriteria(type).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
             }
         }.execute();
     }

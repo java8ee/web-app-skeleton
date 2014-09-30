@@ -9,10 +9,11 @@
             http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
     <http access-denied-page="/403.xhtml" use-expressions="true">
-        <intercept-url pattern="/secure/**" access="hasRole('ADMIN')" />
-        <intercept-url pattern="/**" access="permitAll"/>
+        <!--<intercept-url pattern="/secure/register.xhtml" access="hasRole('ADMIN')" />-->
+        <intercept-url pattern="/secure/**" access="hasAnyRole('ADMIN', 'MANAGER')" />
+        <intercept-url pattern="/**" access="permitAll" />
 
-        <form-login login-page="/login.xhtml" default-target-url="/secure/register.xhtml"
+        <form-login login-page="/login.xhtml" default-target-url="/secure/user-list.xhtml"
             authentication-failure-url="/login.xhtml?error=true" />
         <logout logout-url="/logout.xhtml" logout-success-url="/login.xhtml?faces-redirect=true" />
     </http>
@@ -22,4 +23,6 @@
         <!-- <user-service><user name="admin" password="admin" authorities="ROLE_ADMIN" /></user-service> -->
         </authentication-provider>
     </authentication-manager>
+
+    <global-method-security pre-post-annotations="enabled" />
 </beans:beans>
