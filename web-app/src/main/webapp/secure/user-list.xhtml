@@ -13,13 +13,19 @@
         <h:dataTable value="#{users.list}" var="user">
             <h:column>
                 <f:facet name="header">
-                    <h:outputText value="ID" />
+                    <h:commandLink action="#{users.sort('id')}">
+                        <h:outputText value="ID" />
+                        <f:ajax render="@form" />
+                    </h:commandLink>
                 </f:facet>
                 <h:outputText value="#{user.id}" />
             </h:column>
             <h:column>
                 <f:facet name="header">
-                    <h:outputText value="Login" />
+                    <h:commandLink action="#{users.sort('username')}">
+                        <h:outputText value="Login" />
+                        <f:ajax render="@form" />
+                    </h:commandLink>
                 </f:facet>
                 <h:outputText value="#{user.username}" />
             </h:column>
