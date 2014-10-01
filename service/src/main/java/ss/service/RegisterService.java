@@ -3,7 +3,6 @@ package ss.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import ss.dao.UserDataSource;
 import ss.domain.User;
@@ -14,7 +13,6 @@ public class RegisterService {
     @Autowired
     private UserDataSource dao;
 
-    @PreAuthorize("hasRole('ADMIN')")
     public void register(User user) {
         dao.create(user);
     }
