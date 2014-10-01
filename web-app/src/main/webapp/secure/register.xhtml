@@ -11,8 +11,11 @@
     <h:form id="register">
         <h:panelGrid columns="3">
             <h:outputText value="Username:" />
-            <h:inputText id="username" value="#{register.username}" label="Username" size="20" required="true" />
-            <h:message for="username" />
+            <h:inputText id="username" value="#{register.username}" label="Username" size="20" required="true"
+                    validator="#{register.validateUniqueUsername}">
+                <f:ajax event="blur" render="usernameMessage" />
+            </h:inputText>
+            <h:message id="usernameMessage" for="username" style="color:red" />
 
             <h:outputText value="Password:" />
             <h:inputSecret id="password" value="#{register.password}" label="Password" size="20" required="true" />

@@ -11,7 +11,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -118,6 +120,12 @@ public class RegisterBean implements Serializable {
         }
 
         return null;
+    }
+
+    public void validateUniqueUsername(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        if (registerService.existUser((String) value)) {
+            throw new ValidatorException(new FacesMessage("Username is not unique"));
+        }
     }
 
     private boolean userUnique() {
