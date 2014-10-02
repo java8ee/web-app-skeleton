@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition>
+    <h:form>
+        <h:dataTable value="#{users.list}" var="user">
+            <h:column>
+                <f:facet name="header">
+                    <h:commandLink action="#{users.sort('id')}">
+                        <h:outputText value="ID" />
+                        <f:ajax render="@form" />
+                    </h:commandLink>
+                </f:facet>
+                <h:outputText value="#{user.id}" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:commandLink action="#{users.sort('username')}">
+                        <h:outputText value="Login" />
+                        <f:ajax render="@form" />
+                    </h:commandLink>
+                </f:facet>
+                <h:outputText value="#{user.username}" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Person" />
+                </f:facet>
+                <h:outputText value="#{user.person}" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Roles" />
+                </f:facet>
+                <ui:repeat value="#{user.roles}" var="role" varStatus="status">
+                    <h:outputText value="#{role}#{status.last ? '' : ', '}" />
+                </ui:repeat>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Action" />
+                </f:facet>
+                <h:commandLink value="Delete" action="#{users.remove(user)}">
+                    <f:ajax render="@form" />
+                </h:commandLink>
+            </h:column>
+        </h:dataTable>
+
+        <h:commandLink value="Register new user" action="register?faces-redirect=true" />
+    </h:form>
+</ui:composition>
+</html>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition>
+    <h:form prependId="false">
+        <h:panelGrid columns="2">
+            <h:outputText value="#{msg['label.username']}:" />
+            <h:inputText id="j_username" value="#{login.username}" size="20" />
+            <h:outputText value="#{msg['label.password']}:" />
+            <h:inputSecret id="j_password" value="#{login.password}" size="20" />
+        </h:panelGrid>
+        <h:commandLink value="#{msg['button.login']}" action="#{login.login}" />
+    </h:form>
+</ui:composition>
+
+</html>

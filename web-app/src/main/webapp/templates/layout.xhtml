@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <f:view locale="#{settings.locale}" />
+    <title><ui:insert name="title" /></title>
+    <h:outputStylesheet library="css" name="styles.css" />
+</h:head>
+
+<h:body>
+    <div id="header">
+        <ui:insert name="heading">
+            <ui:include src="/sections/header.xhtml" />
+        </ui:insert>
+    </div>
+    <div id="lang">
+        <h:form>
+            <h:panelGrid columns="2">
+                #{msg.lang} :
+                <h:selectOneMenu value="#{settings.locale}" onchange="submit()" valueChangeListener="#{settings.changeLocale}">
+                    <f:selectItems value="#{settings.locales}" />
+                </h:selectOneMenu>
+            </h:panelGrid>
+        </h:form>
+    </div>
+    <div id="content">
+        <ui:insert name="content" />
+    </div>
+</h:body>
+
+</html>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition>
+    <h:form id="register">
+        <h:panelGrid columns="3">
+            <h:outputText value="Username:" />
+            <h:inputText id="username" value="#{register.username}" label="Username" size="20" required="true"
+                         validator="#{register.validateUniqueUsername}">
+                <f:ajax event="blur" render="usernameMessage" />
+            </h:inputText>
+            <h:message id="usernameMessage" for="username" class="error-message" />
+
+            <h:outputText value="Password:" />
+            <h:inputSecret id="password" value="#{register.password}" label="Password" size="20" required="true" />
+            <h:message for="password" class="error-message" />
+
+            <h:outputText value="Confirm:" />
+            <h:inputSecret id="confirm" value="#{register.confirm}" label="Confirm" size="20" required="true" />
+            <h:message for="confirm" class="error-message" />
+
+            <h:outputText value="Roles:" />
+            <h:selectManyListbox id="roles" value="#{register.rolesId}">
+                <f:selectItems value="#{register.roles}" />
+            </h:selectManyListbox>
+            <h:message for="roles" class="error-message" />
+
+            <h:outputText value="User:" />
+            <h:selectOneMenu value="#{register.personId}">
+                <f:selectItems value="#{register.persons}" />
+            </h:selectOneMenu>
+        </h:panelGrid>
+
+        <h:commandButton value="Register" action="#{register.register}" />
+
+        <h:commandLink value="User list" action="user-list?faces-redirect=true" immediate="true" />
+    </h:form>
+</ui:composition>
+
+</html>

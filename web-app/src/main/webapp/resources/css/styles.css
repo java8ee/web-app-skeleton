@@ -1,0 +1,22 @@
+#header {
+    margin: 20px;
+    font-size: 2em;
+    font-family: fantasy;
+    color: burlywood;
+    text-align: center;
+}
+
+#lang {
+    margin: 5;
+    border: dotted;
+    position: absolute;
+    right: 0px;
+}
+
+#content {
+    margin: 5;
+}
+
+.error-message {
+    color:red;
+}

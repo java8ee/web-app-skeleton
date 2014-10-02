@@ -1,31 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets">
 
-<h:head>
-    <f:view locale="#{settings.locale}" />
-    <title>#{msg['title.login']}</title>
-</h:head>
-
-<h:body>
-    <h:form>
-        <h:panelGrid columns="2">
-            #{msg.lang} :
-            <h:selectOneMenu value="#{settings.locale}" onchange="submit()" valueChangeListener="#{settings.changeLocale}">
-                <f:selectItems value="#{settings.locales}" />
-            </h:selectOneMenu>
-        </h:panelGrid>
-    </h:form>
-
-    <h:form prependId="false">
-        <h:panelGrid columns="2">
-            <h:outputText value="#{msg['label.username']}:" />
-            <h:inputText id="j_username" value="#{login.username}" size="20" />
-            <h:outputText value="#{msg['label.password']}:" />
-            <h:inputSecret id="j_password" value="#{login.password}" size="20" />
-        </h:panelGrid>
-        <h:commandLink value="#{msg['button.login']}" action="#{login.login}" />
-    </h:form>
-</h:body>
+<ui:composition template="/templates/layout.xhtml">
+    <ui:define name="title">Web App Skeleton :: #{msg['title.login']}</ui:define>
+    <ui:define name="heading">#{msg['title.login']}</ui:define>
+    <ui:define name="content">
+        <ui:include src="/sections/login.xhtml" />
+    </ui:define>
+</ui:composition>
 
 </html>
